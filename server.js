@@ -4,13 +4,19 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
+const User = require("./models/user");
+
 dotenv.config();
  
 const app = express()
 
 mongoose.connect(
     process.env.DATABASE,
-    { useNewUrlParser: true, useUnifiedTopology: true },
+    { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    },
     err => {
         if (err) {
             console.log(err);
@@ -31,7 +37,19 @@ app.get('/', (req, res) => {
 });
 
 app.post("/",(req, res) => {
-    console.log("body", req.body);
+    let user = new User();
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.address = req.body.address;
+
+    user.save((err) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json('successfully saved')
+        }
+    })
 });
 
 app.listen(3000, err => {
