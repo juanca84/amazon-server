@@ -21,6 +21,7 @@ router.post("/categories", async (req, res) => {
     }
 })
 
+// GET request 
 router.get("/categories", async (req, res) => {
     try {
         let categories = await Category.find();

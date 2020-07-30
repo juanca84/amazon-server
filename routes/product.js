@@ -28,7 +28,37 @@ router.post("/products", upload.single("photo"), async (req, res) => {
 });
 
 // GET request - get all products
+router.get('/products', async(req, res) => {
+    try {
+        let products = await Product.find();
+        res.json({
+            success: true,
+            products: products
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 // GET request - create  a single product
+router.get('/products/:id', async(req, res) => {
+    try {
+        let products = await Product.findOne({ _id: req.params.id });
+        res.json({
+            success: true,
+            products: products
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 // PUT request - update a single product
 // DELETE request - delete a single product
 module.exports = router;
