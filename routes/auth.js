@@ -51,6 +51,32 @@ router.get("/auth/user", verifyToken, async(req, res) =>{
     }
 })
 
+/* Update a profile */
+router.put("/auth/user", verifyToken, async(req, res) => {
+    let data = {}
+    if (req.body.name) data.name = req.body.name;
+    if (req.body.email) data.email = req.body.email;
+    if (req.body.password) data.password = req.body.password;
+    try {
+        let foundUser = await User.findOneAndUpdate(
+            { _id: req.decoded._id },
+            {
+                $set: data
+            },
+            { upsert: true }
+        );
+        res.json({
+            success: true,
+            message: "Successfully updated"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        }); 
+    }
+})
+
 /* Login route*/
 router.post("/auth/login", async(req, res) => {
     try {
