@@ -31,4 +31,21 @@ router.post('/reviews/:productID', [verifyToken, upload.single("photo")], upload
     }
 });
 
+router.get("/review/:productID", async(req, res) => {
+    try {
+        const productReview = awaitreview.find({
+            productID:req.params.productID
+        }).populate('user').exec();
+        res.json({
+            success: true,
+            reviews: productReview
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
 module.exports = router;
