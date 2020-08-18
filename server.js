@@ -40,7 +40,7 @@ const productRoutes = require('./routes/product');
 const categoryRoutes = require('./routes/category');
 const ownerRoutes = require('./routes/owner');
 const authRoutes = require('./routes/auth');
-const reviewRoutes = require('./routes/auth');
+const reviewRoutes = require('./routes/review');
 
 app.use('/api', productRoutes);
 app.use('/api', categoryRoutes);
