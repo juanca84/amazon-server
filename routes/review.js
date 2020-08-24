@@ -15,7 +15,7 @@ router.post("/reviews/:productID", [verifyToken, upload.single("photo")], async 
         review.userID = req.decoded._id;
         review.productID = req.params.productID;
 
-        await Product.update({ $push: { rating: review._id } });
+        await Product.update({_id: req.params.productID},{ $push: { reviews: review._id } });
         const savedReview = await review.save();
         if (savedReview) {
             res.json({
@@ -27,7 +27,7 @@ router.post("/reviews/:productID", [verifyToken, upload.single("photo")], async 
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: err.message
+            message: error.message
         })
     }
 });
